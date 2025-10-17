@@ -1,25 +1,21 @@
-## **Environment**
+# HPC Batch Processing for KinasePredictPro (KIPP)
 
-The most important python packages are:
-- python == 3.7.10
-- pytorch == 1.9.0+cu111
-- tensorboard == 2.5.0
-- rdkit == 2021.09.3
-- scikit-learn == 1.0
-- hyperopt == 0.2.7
-- numpy == 1.19.5
+This fork adds high-performance computing (HPC) capabilities to KinasePredictPro for processing large libraries in parallel using SLURM clusters.
 
-## **Models**
+##Modifications
 
-You can download all the model files from [here](https://github.com/idrugLab/KinasePredictPro/releases/tag/models) and extract them to the root of the repository.
+###Problem
+The original code accesses the same models directory causing I/O bottleneck when running hundreds of parallel jobs.
 
-## **Predict**
+### Solution
+**Batch processing mode**: Process chunk of SMILES (Each SLURM array gets 1 chunk)
+**Model pre-loading**: Load models once per job, share across workers (Each SLURM job copies models to temp file, deletes after)
+**Python muliprocessing**: Switched from parallel to python internal multiprocessing with nesteed parallelism 
 
-Args:
+## Quickstart
 
-  - smi: The SMILES string of the molecule you want to predict.
-  - model_type: `0`: Voting-RF-RDKitDes+FP2+AtomPairs; `1`: The best model based on each kinase.
+## Original project
+For General KIPP usage and citation inforamtion see [README.md](README.md)
 
-E.g.
-
-`python predict.py 'CC(C)OC(=O)CC(=O)CSC1=C(C=C2CCCC2=N1)C#N' 1`
+#Author
+Jeremy Leitz - HPC modifications 2025 
