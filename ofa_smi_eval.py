@@ -255,8 +255,20 @@ def load_model_ofa(name, algorithm, featurizer, best_hyperparams, seed1):
         md_name = os.path.join(
             model_path, '{}_{}_{}_{}.h5'.format(name, algorithm, featurizer,
                                                 seed1))
-        model = tf.keras.models.load_model(md_name.encode('utf-8'))
-        return model
+        try:
+            model = tf.keras.models.load_model(md_name)
+            return model
+        except (OSError, TypeError) as e:
+            #If that fails, try with encoding (original)
+            try:
+                model = tf.keras.models.load_model(md_name.encode('utf-8'))
+                return model
+            except Exception as e2:
+                #Both failed -raise informative error
+                raise ValueError(f"Could not load model {md_names}."
+                        f"Tried both string and bytes. "
+                        f"Error: {e}, {e2}")
+
 
     if algorithm == 'GCN':
         model = GraphConvModel(len(tasks),

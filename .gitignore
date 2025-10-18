@@ -109,3 +109,6 @@ env.bak/
 venv.bak/
 
 *.json
+
+#Model Folder
+./models
