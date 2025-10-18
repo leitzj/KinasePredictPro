@@ -5,7 +5,7 @@ from ofa_smi_eval import featurizer_ofa, load_model_ofa, predict_ofa
 import pandas as pd
 import numpy as np
 
-df_models = pd.read_csv('./data/kinase_jobs.csv')
+df_models = pd.read_csv('./KIPP_data/kinase_jobs.csv')
 
 
 def load(model_name, target_name, seed):
